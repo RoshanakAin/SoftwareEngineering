@@ -1,43 +1,57 @@
 /*
-¸ÃÎÄ¼ş´¦ÓÚÎ´Íê³É×´Ì¬£¬½öÌá¹©Î±´úÂëĞÎÊ½Ë¼Â·ºÍ´óÖÂ¿ò¼Ü£»
-°üº¬Éú³ÉºÍÇó½âÁ½¸öÄ£¿é¡£
+è¯¥æ–‡ä»¶å¤„äºæœªå®ŒæˆçŠ¶æ€ï¼Œä»…æä¾›ä¼ªä»£ç å½¢å¼æ€è·¯å’Œå¤§è‡´æ¡†æ¶ï¼›
+åŒ…å«ç”Ÿæˆå’Œæ±‚è§£ä¸¤ä¸ªæ¨¡å—ã€‚
 */
 
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <string.h>
 
 using namespace std;
 
-void ProduceSudoku(int n)
+int n;//éœ€è¦ç”Ÿæˆçš„æ•°ç‹¬çŸ©é˜µä¸ªæ•°
+char grid[9][9];//ç”Ÿæˆçš„æ•°ç‹¬çŸ©é˜µ
+char buffer[1000000];//è¯»æ§åˆ¶å°çš„ç¼“å†²
+ofstream OutCreateFile("../BIN/sudoku.txt");//ç”ŸæˆçŸ©é˜µå†™å…¥çš„æ–‡ä»¶
+
+void CreateSudoku(int n)
 {
-	//Éú³ÉÊı¶À¾ßÌå´úÂë
+	//ç”Ÿæˆæ•°ç‹¬å…·ä½“ä»£ç 
 }
 
 void SolveSudoku()
 {
-	//Çó½âÊı¶À¾ßÌå´úÂë
+	//æ±‚è§£æ•°ç‹¬å…·ä½“ä»£ç 
 }
 
-int main(int argc,char** argv)
+int main(int argc, char** argv)
 {
 	if (argc != 3)
 	{
-		//ÌáÊ¾²ÎÊı¸öÊı´íÎó
+		//æç¤ºå‚æ•°ä¸ªæ•°é”™è¯¯
+		cout << "Please input 3 parameters" << endl;
+		return 0;
 	}
-	
+
 	if (strcmp(argv[1], "-c") == 0)
-	{
-		//Éú³ÉÊı¶ÀÖÕ¾Ö
+	{//ç”Ÿæˆæ•°ç‹¬ç»ˆå±€
+		n = atoi(argv[2]);//é™åˆ¶ç”Ÿæˆæ•°ç‹¬ç»ˆå±€çš„ä¸ªæ•°èŒƒå›´
+		if (n < 1 || n>1000000)
+		{
+			cout << "Number is illegal" << endl;
+			return 0;
+		}
+		CreateSudoku(n);
 	}
 	else if (strcmp(argv[1], "-s") == 0)
 	{
-		//Çó½âÊı¶À
-
+		//æ±‚è§£æ•°ç‹¬
 	}
 	else
 	{
-		//ÌáÊ¾²ÎÊıÄÚÈİ´íÎó
+		//æç¤ºå‚æ•°å†…å®¹é”™è¯¯
+		cout << "Command illegal" << endl;
 	}
 
 	return 0;
