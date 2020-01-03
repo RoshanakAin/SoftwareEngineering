@@ -60,7 +60,7 @@ void CreateSudoku(int n)
 					for (int row = 0; row < 3; ++row)
 					{
 						//生成该行首字母
-						int tmp = (8 + move2[i][row] - '0') % 9;//生成平移后位置，因为学号位在末尾，故+8
+						int tmp = (8 + move2[j][row] - '0') % 9;//生成平移后位置，因为学号位在末尾，故+8
 						buffer[buffer_cursor] = permutation[tmp];//存入缓冲区
 						buffer_cursor++;
 
@@ -79,7 +79,7 @@ void CreateSudoku(int n)
 					for (int row = 0; row < 3; ++row)
 					{
 						//生成该行首字母
-						int tmp = (8 + move3[i][row] - '0') % 9;//生成平移后位置，因为学号位在末尾，故+8
+						int tmp = (8 + move3[k][row] - '0') % 9;//生成平移后位置，因为学号位在末尾，故+8
 						buffer[buffer_cursor] = permutation[tmp];//存入缓冲区
 						buffer_cursor++;
 
@@ -106,9 +106,6 @@ void CreateSudoku(int n)
 		//按字典序生成全排列,但学号位不动
 		next_permutation(permutation, permutation + 8);
 	}
-
-	//输出到文件,有误，待修改 
-	OutCreateFile << buffer;
 }
 
 void SolveSudoku()
@@ -134,8 +131,10 @@ int main(int argc, char** argv)
 			return 0;
 		}
 		buffer_cursor = 0;
+		memset(buffer,0,sizeof(buffer));
 		CreateSudoku(n);
-		printf("success!\n"); 
+		//输出到文件 
+		OutCreateFile << buffer;
 	}
 	else if (strcmp(argv[1], "-s") == 0)
 	{
