@@ -25,11 +25,11 @@ void CreateSudoku(int n)
 {
 	//生成数独具体代码
 	int cnt_create = 0;//已经生成的数独数目
-	//循环生成n个矩阵
+					   //循环生成n个矩阵
 	while (cnt_create < n)
 	{
 		permutation[8] = '8';//学号位固定
-		//根据移动方式共有72种不同的排列
+							 //根据移动方式共有72种不同的排列
 		for (int i = 0; i < 2; ++i)
 		{
 			for (int j = 0; j < 6; ++j)
@@ -102,15 +102,41 @@ void CreateSudoku(int n)
 				}
 			}
 		}
-		
+
 		//按字典序生成全排列,但学号位不动
 		next_permutation(permutation, permutation + 8);
 	}
 }
 
-void SolveSudoku()
+void MatrixToList()
 {
+	//将文件数据转化为DLX十字链表
+}
+
+void DLX()
+{
+	//DLX算法求解
+}
+
+void ListToFile()
+{
+	//得到的解写入文件
+}
+
+void SolveSudoku(string FilePath)//DLX算法尝试
+{
+	ifstream ReadFile(FilePath);
+	if (!ReadFile.is_open())
+	{
+		cout << "Path Invalid！" << endl;
+		return;
+	}
 	//求解数独具体代码
+	MatrixToList();
+
+	DLX();
+
+	ListToFile();
 }
 
 int main(int argc, char** argv)
@@ -131,7 +157,7 @@ int main(int argc, char** argv)
 			return 0;
 		}
 		buffer_cursor = 0;
-		memset(buffer,0,sizeof(buffer));
+		memset(buffer, 0, sizeof(buffer));
 		CreateSudoku(n);
 		//输出到文件 
 		OutCreateFile << buffer;
@@ -139,6 +165,7 @@ int main(int argc, char** argv)
 	else if (strcmp(argv[1], "-s") == 0)
 	{
 		//求解数独
+		SolveSudoku(argv[2]);
 	}
 	else
 	{
