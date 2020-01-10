@@ -9,17 +9,29 @@
 #include <string.h>
 #include <algorithm>
 
+#define SetVisit 1
+#define CancelVisit 0
+
 using namespace std;
 
 int n;//需要生成的数独矩阵个数
-char grid[10][10];//生成的数独矩阵
+char grid[10][10];//数独矩阵
 char buffer[170000000];//读矩阵到文件的缓冲
+char buffer_solved[170000000];//写矩阵到文件的缓冲
 int buffer_cursor = 0;//buffer数组的当前索引
-ofstream OutCreateFile("sudoku.txt");//生成矩阵写入的文件
+ofstream OutCreateFile;//生成矩阵写入的文件
+ifstream PuzzleFile;//解决矩阵来自的文件
+ofstream OutSolvedFile;//解决后的矩阵文件
 char permutation[15] = { '1','2','3','4','5','6','7','9' };//生成的初始排列
 char move1[10][5] = { "036","063" };//矩阵每三行的移动规则
 char move2[10][5] = { "258","285","528","582","852","825" };//移动矩阵4-6行
 char move3[10][5] = { "147","174","417","471","714","741" };//移动矩阵7-9行
+
+char vis[3][10][10];
+//第一维中0表示行、1表示列、2表示九宫格
+//第二维中表示在第几个行、列或九宫格中
+//第三维表示其中的某个数字，如果该数字被填入了，vis值置1，否则置0
+bool is_found = false;//标识是否找到解
 
 void CreateSudoku(int n)
 {
@@ -108,35 +120,109 @@ void CreateSudoku(int n)
 	}
 }
 
-void MatrixToList()
+void SetVis(int row,int col,int num,int flag)
 {
-	//将文件数据转化为DLX十字链表
+	//访问时flag为1，撤销访问时flag为0
+	vis[0][row][num] = flag;//行
+	vis[1][col][num] = flag;//列
+	vis[2][row / 3 * 3 + col / 3][num] = flag;//九宫格
 }
 
-void DLX()
+void SolveSingleSudoku(int row,int col)
 {
-	//DLX算法求解
+	while (grid[row][col] != 0)//找到未填入的格子
+	{
+		if (col < 8)//横向推进
+			col++;
+		else
+		{//纵向推进
+			col = 0;
+			row++;
+		}
+
+		if (row == 9)
+		{
+			//遍历完后已经无空格
+			is_found = true;
+			return;
+		}
+	}
+
+	//遍历1-9
+	for (int i = 1; i <= 9; i++)
+	{
+		//若未访问
+		if (vis[0][row][i] == 0
+			&& vis[1][col][i] == 0
+			&& vis[2][row / 3 * 3 + col / 3][i] == 0)
+		{
+			SetVis(row, col, i, SetVisit);//置访问
+			grid[row][col] = i + '0';
+			//回溯
+			SolveSingleSudoku(row, col);
+			if (is_found)//找到了即返回
+				return;
+			//重置
+			SetVis(row, col, i, CancelVisit);
+			grid[row][col] = '0';
+		}
+	}
 }
 
-void ListToFile()
+void SolveSudoku(char* FilePath)//DLX算法尝试
 {
-	//得到的解写入文件
-}
-
-void SolveSudoku(string FilePath)//DLX算法尝试
-{
-	ifstream ReadFile(FilePath);
-	if (!ReadFile.is_open())
+	PuzzleFile.open(FilePath);
+	if (!PuzzleFile)
 	{
 		cout << "Path Invalid！" << endl;
 		return;
 	}
+	//从文件载入矩阵
+	PuzzleFile >> buffer;
+	int PuzzleGridCount = 0;
+	for (int i = 0, LineCount = 0; buffer[i] != '\0'; ++i)
+	{
+		if (buffer[i] == '\n')//无效字符跳过
+			continue;
+		for (int j = 0; j <= 16; ++j)
+		{
+			if (j % 2 == 0)//为矩阵元素
+			{
+				grid[LineCount][j % 2] = buffer[i];
+				SetVis(LineCount, j % 2, buffer[i] - '0',SetVisit);//置访问
+			}
+		}
+		LineCount++;//换行
+		if (LineCount == 9)//换新矩阵
+		{
+			SolveSingleSudoku(0, 0);//回溯解数独
+			//写入缓冲
+			for (int row = 0; row < 9; ++row)
+			{
+				for (int col = 0; col < 9; ++col)
+				{
+					if (col != 9)
+					{
+						buffer_solved[buffer_cursor++] = grid[row][col];
+						buffer_solved[buffer_cursor++] = ' ';
+					}
+					else
+					{
+						buffer_solved[buffer_cursor++] = grid[row][col];
+					}
+				}
+				buffer_solved[buffer_cursor++] = '\n';
+			}
+			//清除访问
+			memset(vis, 0, sizeof(vis));
+			LineCount = 0;
+		}
+	}
+
 	//求解数独具体代码
-	MatrixToList();
+	//针对每个矩阵进行DLX求解
 
-	DLX();
-
-	ListToFile();
+	PuzzleFile.close();
 }
 
 int main(int argc, char** argv)
@@ -156,16 +242,27 @@ int main(int argc, char** argv)
 			cout << "Number is illegal" << endl;
 			return 0;
 		}
+		//初始化缓冲区
 		buffer_cursor = 0;
 		memset(buffer, 0, sizeof(buffer));
+		//生成终局
 		CreateSudoku(n);
-		//输出到文件 
+		//输出到文件
+		OutCreateFile.open("sudoku.txt");
 		OutCreateFile << buffer;
+		OutCreateFile.close();
 	}
 	else if (strcmp(argv[1], "-s") == 0)
 	{
+		//初始化缓冲区
+		buffer_cursor = 0;
+		memset(buffer_solved, 0, sizeof(buffer_solved));
 		//求解数独
 		SolveSudoku(argv[2]);
+		//输出到文件
+		OutSolvedFile.open("sudoku_s.txt");
+		OutSolvedFile << buffer_solved;
+		OutSolvedFile.close();
 	}
 	else
 	{
