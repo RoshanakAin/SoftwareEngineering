@@ -1,5 +1,5 @@
 /*
-该文件处于未完成状态；
+该文件处于未完成状态，仅提供伪代码形式思路和大致框架；
 包含生成和求解两个模块。
 */
 
@@ -26,7 +26,7 @@ char move1[10][5] = { "036","063" };//矩阵每三行的移动规则
 char move2[10][5] = { "258","285","528","582","852","825" };//移动矩阵4-6行
 char move3[10][5] = { "147","174","417","471","714","741" };//移动矩阵7-9行
 
-char vis[3][10][10];
+int vis[3][10][10];
 //第一维中0表示行、1表示列、2表示九宫格
 //第二维中表示在第几个行、列或九宫格中
 //第三维表示其中的某个数字，如果该数字被填入了，vis值置1，否则置0
@@ -121,7 +121,7 @@ void CreateSudoku(int n)
 
 void SetVis(int row, int col, int num, int flag)
 {
-	//访问时flag为1，撤销访问时flag为0
+	//占用时flag为1，撤销占用时flag为0
 	vis[0][row][num] = flag;//行
 	vis[1][col][num] = flag;//列
 	vis[2][row / 3 * 3 + col / 3][num] = flag;//九宫格
@@ -147,7 +147,7 @@ void SolveSingleSudoku(int row, int col)
 		}
 	}
 
-	bool is_search=false;
+	bool is_search = false;
 	//遍历1-9
 	for (int i = 1; i <= 9; i++)
 	{
@@ -156,22 +156,25 @@ void SolveSingleSudoku(int row, int col)
 			&& vis[1][col][i] == 0
 			&& vis[2][row / 3 * 3 + col / 3][i] == 0)
 		{
-			SetVis(row, col, i, SetVisit);//置访问
+			cout << i << "可用" << endl;
+			SetVis(row, col, i, SetVisit);//置占用 
 			grid[row][col] = i + '0';
-			is_search=true;
+			is_search = true;
 			//回溯
 			SolveSingleSudoku(row, col);
 		}
-		
-		if(is_search)//若一个点被搜索过 
+
+		if (is_search)//若一个点被搜索过 
 		{
-			is_search=false;
+			is_search = false;
 			if (is_found)//找到了即返回
 				return;
 			//重置
 			SetVis(row, col, i, CancelVisit);
 			grid[row][col] = '0';
 		}
+
+		cout << i << "不可用" << endl;
 	}
 }
 
@@ -189,20 +192,19 @@ void SolveSudoku(char* FilePath)//回溯算法
 	int LineCount = 0;
 	while (PuzzleFile.getline(str, 20))
 	{
-		cout<<LineCount<<":"<<str<<endl;
 		for (int i = 0; i <= 16; ++i)
 		{
 			if (i % 2 == 0)//为矩阵元素
 			{
 				grid[LineCount][i / 2] = str[i];
-				SetVis(LineCount, i / 2, str[i] - '0', SetVisit);//置访问
+				SetVis(LineCount, i / 2, str[i] - '0', SetVisit);//置占用
 			}
 		}
 
 		LineCount++;//换行
 		if (LineCount == 9)//换新矩阵
 		{
-			is_found=false;
+			is_found = false;
 			SolveSingleSudoku(0, 0);//回溯解数独
 									//写入缓冲
 			for (int row = 0; row < 9; ++row)
