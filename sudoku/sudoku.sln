@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sudoku", "sudoku\sudoku.vcxproj", "{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest1", "UnitTest1\UnitTest1.vcxproj", "{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}"
+EndProject
+Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Debug|x64.ActiveCfg = Debug|x64
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Debug|x64.Build.0 = Debug|x64
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Debug|x86.ActiveCfg = Debug|Win32
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Debug|x86.Build.0 = Debug|Win32
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Release|x64.ActiveCfg = Release|x64
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Release|x64.Build.0 = Release|x64
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Release|x86.ActiveCfg = Release|Win32
+		{C56D4DE4-B1A1-4163-893A-20CA4DF9F53D}.Release|x86.Build.0 = Release|Win32
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Debug|x64.ActiveCfg = Debug|x64
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Debug|x64.Build.0 = Debug|x64
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Debug|x86.ActiveCfg = Debug|Win32
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Debug|x86.Build.0 = Debug|Win32
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Release|x64.ActiveCfg = Release|x64
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Release|x64.Build.0 = Release|x64
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Release|x86.ActiveCfg = Release|Win32
+		{0C6A6A7B-5C14-4843-9FE9-BE963079CE55}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03ACF0D7-D4E8-4B35-A1D6-0E3B53B03C1B}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
