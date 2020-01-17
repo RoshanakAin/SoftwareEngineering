@@ -1,0 +1,9 @@
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\bin\Debug\WindowsFormsAppSudoku.exe
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\bin\Debug\WindowsFormsAppSudoku.pdb
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.csprojResolveAssemblyReference.cache
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.Form1.resources
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.Properties.Resources.resources
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.csproj.GenerateResource.Cache
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.csproj.CoreCompileInputs.cache
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.exe
+E:\BIT\2019-2020-1\SE\WindowsFormsAppSudoku\WindowsFormsAppSudoku\obj\Debug\WindowsFormsAppSudoku.pdb
