@@ -1,13 +1,4 @@
-/*
-该文件处于未完成状态，仅提供伪代码形式思路和大致框架；
-包含生成和求解两个模块。
-*/
-
-#include <iostream>
-#include <fstream>
-#include <cmath>
-#include <string.h>
-#include <algorithm>
+#include "sudoku.h"
 
 #define SetVisit 1
 #define CancelVisit 0
@@ -127,6 +118,15 @@ void SetVis(int row, int col, int num, int flag)
 	vis[2][row / 3 * 3 + col / 3][num] = flag;//九宫格
 }
 
+bool CheckVis(int row, int col, int num)
+{
+	if (vis[0][row][num] == 0
+		&& vis[1][col][num] == 0
+		&& vis[2][row / 3 * 3 + col / 3][num] == 0)
+		return true;
+	return false;
+}
+
 void SolveSingleSudoku(int row, int col)
 {
 	while (grid[row][col] != '0')//找到未填入的格子
@@ -152,11 +152,8 @@ void SolveSingleSudoku(int row, int col)
 	for (int i = 1; i <= 9; i++)
 	{
 		//若未访问
-		if (vis[0][row][i] == 0
-			&& vis[1][col][i] == 0
-			&& vis[2][row / 3 * 3 + col / 3][i] == 0)
+		if (CheckVis(row,col,i))
 		{
-			cout << i << "可用" << endl;
 			SetVis(row, col, i, SetVisit);//置占用 
 			grid[row][col] = i + '0';
 			is_search = true;
@@ -173,8 +170,6 @@ void SolveSingleSudoku(int row, int col)
 			SetVis(row, col, i, CancelVisit);
 			grid[row][col] = '0';
 		}
-
-		cout << i << "不可用" << endl;
 	}
 }
 
@@ -223,6 +218,8 @@ void SolveSudoku(char* FilePath)//回溯算法
 				}
 				buffer[buffer_cursor++] = '\n';
 			}
+			buffer[buffer_cursor++] = '\n';
+			OutSolvedFile << buffer;
 			//清除访问
 			memset(vis, 0, sizeof(vis));
 			LineCount = 0;
@@ -241,6 +238,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+	int start = clock();
 	if (strcmp(argv[1], "-c") == 0)
 	{//生成数独终局
 		n = atoi(argv[2]);//限制生成数独终局的个数范围
@@ -265,11 +263,11 @@ int main(int argc, char** argv)
 		buffer_cursor = 0;
 		memset(buffer, 0, sizeof(buffer));
 		memset(vis, 0, sizeof(vis));
+		//打开文件
+		OutSolvedFile.open("sudoku.txt");
 		//求解数独
 		SolveSudoku(argv[2]);
 		//输出到文件
-		OutSolvedFile.open("sudoku_s.txt");
-		OutSolvedFile << buffer;
 		OutSolvedFile.close();
 	}
 	else
@@ -277,6 +275,7 @@ int main(int argc, char** argv)
 		//提示参数内容错误
 		cout << "Command illegal" << endl;
 	}
-
+	int end = clock();
+	cout << "消耗时间为：" << end - start << "ms" << endl;
 	return 0;
 }
